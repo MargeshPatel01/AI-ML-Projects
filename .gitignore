@@ -1,0 +1,14 @@
+# Python environment
+__pycache__/
+venv/
+.venv/
+*.pyc
+
+# Flask/Temporary Files
+# Ignore image uploads and processed images
+static/img/uploads/
+static/temp/
+
+# Deployment Files
+# Ignore environment variables if used later
+.env

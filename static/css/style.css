@@ -1,0 +1,233 @@
+/* --- PROFESSIONAL SLATE AESTHETIC --- */
+
+/* 1. Global Setup and Typography */
+:root {
+    /* Base Palette */
+    --bg-dark: #121212;         /* Deep Black for background */
+    --card-dark: #1e1e1e;       /* Slightly lighter for cards/components */
+    --border-color: #2e2e2e;    /* Subtle border lines */
+    
+    /* Accent & Semantic Colors */
+    --accent-color: #00bcd4;    /* Vibrant Teal/Cyan (Primary Accent) */
+    --live-color: #4caf50;      /* Success Green */
+    --pending-color: #616161;   /* Muted Gray for Pending */
+    
+    /* Text */
+    --text-primary: #ffffff;    
+    --text-secondary: #bdbdbd;  
+    
+    /* Shadow/Glow */
+    --glow-primary: rgba(0, 188, 212, 0.4); /* Teal glow */
+    --shadow-subtle: 0 4px 6px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+body { 
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    padding-top: 60px;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-primary);
+    font-weight: 700; 
+}
+
+/* Ensure all key Bootstrap colors match the theme for predictability */
+.text-primary, .btn-primary { 
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+    color: var(--bg-dark) !important;
+    font-weight: 700;
+}
+
+.text-info { color: var(--accent-color) !important; }
+
+/* Navbar Refinement */
+#main-nav {
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--card-dark) !important;
+}
+.navbar-brand {
+    letter-spacing: 1px;
+}
+
+/* --- DASHBOARD COMPONENTS --- */
+
+/* Project Card Styling */
+.project-item {
+    background-color: var(--card-dark);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color) !important;
+    overflow: hidden;
+}
+.project-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px var(--shadow-lg), 0 0 15px var(--glow-primary);
+    border-color: var(--accent-color) !important;
+}
+
+.image-container {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+.project-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.project-item:hover .project-img {
+    transform: scale(1.05);
+}
+
+/* Status Ribbons */
+.status-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom-right-radius: 0.5rem;
+    color: var(--bg-dark); 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.status-overlay.bg-success {
+    background-color: var(--live-color) !important; 
+    color: var(--bg-dark);
+}
+.status-overlay.bg-secondary {
+    background-color: var(--pending-color) !important; 
+    color: var(--text-primary); 
+}
+
+/* Button Refinements */
+.launch-btn {
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+.launch-btn:hover {
+    box-shadow: 0 0 10px var(--accent-color);
+}
+.launch-btn:disabled {
+    background-color: var(--card-dark) !important;
+    color: var(--pending-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* --- DETAIL PAGE COMPONENTS (NEW) --- */
+
+/* General Container */
+.detail-interface {
+    background-color: var(--card-dark);
+    padding: 2rem !important;
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Input Fields */
+.form-control, .form-select {
+    background-color: var(--bg-dark) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25) !important;
+    background-color: var(--bg-dark) !important;
+}
+
+/* Feature/Pill Badges (e.g., for Modeling Approach) */
+.feature-pill {
+    display: inline-block;
+    background-color: var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.3rem 0.75rem;
+    border-radius: 50rem;
+    font-size: 0.85rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+.feature-pill.accent {
+    background-color: rgba(0, 188, 212, 0.1);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Data Result Card */
+.result-card {
+    background-color: var(--bg-dark);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-subtle);
+}
+
+/* Custom Visual for Prediction Output (for all projects) */
+.prediction-output {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 0.75rem;
+    background-color: var(--card-dark);
+    border: 2px solid var(--border-color);
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+.prediction-output.active {
+    border-color: var(--live-color);
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+}
+
+/* LLM Sentiment Specifics */
+.aspect-list li {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s ease;
+    border: 1px solid var(--border-color);
+}
+.aspect-list li:hover {
+    background-color: #333;
+}
+
+/* Quality Checker Image Preview */
+/* Ensures images inside the result card containers are responsive and fit well */
+#result-image-original, #result-image-processed {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 250px; /* Limits the height for side-by-side view */
+    object-fit: contain;
+}
+
+/* Demand Project Grid */
+.metric-box {
+    background-color: var(--bg-dark);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border-left: 5px solid var(--accent-color);
+    box-shadow: var(--shadow-subtle);
+}
+.metric-box h4 {
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+.metric-box .display-4 {
+    font-weight: 900;
+}

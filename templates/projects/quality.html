@@ -1,0 +1,96 @@
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <h3 class="text-center text-info mb-4">Image-Based Quality Checker</h3>
+        <p class="text-secondary text-center">Upload an image of a product (e.g., a simple shape) to detect potential defects using computer vision (OpenCV).</p>
+
+        <form id="quality-form" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="image-file" class="form-label fw-bold">Upload Product Image for Inspection:</label>
+                <input class="form-control" type="file" id="image-file" name="file" accept=".png, .jpg, .jpeg" required>
+                <div class="form-text text-secondary">Accepted formats: PNG, JPG, JPEG.</div>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary launch-btn">Run Quality Check</button>
+            </div>
+        </form>
+
+        <div id="results-area" class="mt-4 p-4 project-item" style="display: none;">
+            <h4 class="card-title"><span id="result-icon"></span> Quality Check Result</h4>
+            <p><strong>Status:</strong> <span id="result-status"></span></p>
+            <p><strong>Analysis:</strong> <span id="result-message"></span></p>
+            <hr>
+            <div class="text-center">
+                <h5 class="text-info">Annotated Output Image</h5>
+                <img id="result-image" src="" alt="Processed Image" class="img-fluid rounded shadow-lg mt-3">
+            </div>
+        </div>
+
+        <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('quality-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const formData = new FormData(form);
+        const resultsArea = document.getElementById('results-area');
+        const errorMessage = document.getElementById('error-message');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        // Clear previous results/errors
+        resultsArea.style.display = 'none';
+        errorMessage.style.display = 'none';
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+
+        // NOTE: The API call is now correctly hardcoded to the Flask endpoint
+        fetch('/api/predict/quality', { 
+            method: 'POST',
+            body: formData 
+        })
+        .then(response => response.json().then(data => ({
+            status: response.status, 
+            body: data
+        })))
+        .then(data => {
+            if (data.status === 200) {
+                // Success
+                const result = data.body;
+                document.getElementById('result-status').textContent = result.status;
+                document.getElementById('result-message').textContent = result.message;
+                
+                // Set color and icon based on status
+                const statusSpan = document.getElementById('result-status');
+                const iconSpan = document.getElementById('result-icon');
+
+                if (result.status === 'Pass') {
+                    statusSpan.className = 'text-success fw-bold';
+                    iconSpan.innerHTML = '✅';
+                } else {
+                    statusSpan.className = 'text-danger fw-bold';
+                    iconSpan.innerHTML = '❌';
+                }
+                
+                // Update image source and display results
+                document.getElementById('result-image').src = result.image_url + '?' + new Date().getTime(); // Append timestamp to prevent caching
+                resultsArea.style.display = 'block';
+
+            } else {
+                // Error
+                errorMessage.textContent = data.body.error || 'An unexpected error occurred.';
+                errorMessage.style.display = 'block';
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            errorMessage.textContent = 'Network or server error. Check console for details.';
+            errorMessage.style.display = 'block';
+        })
+        .finally(() => {
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Run Quality Check';
+        });
+    });
+</script>
